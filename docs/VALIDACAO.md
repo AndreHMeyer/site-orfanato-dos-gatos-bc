@@ -9,8 +9,8 @@ Data de referência do projeto: 09/10/2026. Verificação sobre os arquivos expo
 | `npm run build` | Passou; rotas e metadados prerenderizados, `out/` gerado |
 | `npm run lint` | Passou, sem avisos |
 | `npm run typecheck` | Passou |
-| `npm test` | 31 testes passaram |
-| `npm run test:e2e` | 12 testes Chromium passaram |
+| `npm test` | 33 testes passaram, incluindo caminhos de publicação |
+| `npm run test:e2e` | 13 testes Chromium passaram no subdiretório do Pages |
 | 320, 375, 768, 1024, 1440 px | Sem overflow horizontal; menu e âncoras funcionais |
 | Texto a 200% em 375 px | Sem overflow ou conteúdo cortado após ajuste de reflow |
 | Axe em 375 e 1440 px | Zero violações nas regras WCAG A/AA selecionadas, incluindo WCAG 2.2 AA |
@@ -24,6 +24,16 @@ Data de referência do projeto: 09/10/2026. Verificação sobre os arquivos expo
 SHA-256 da logo: `2369C1760C0EA566EA2996AEA07D154E2A59C31DD5FEF38F3B932552A1B38279`.
 
 O fluxo verificado vai da navegação aos dados locais e links externos, e do clique Pix à área de transferência e ao feedback acessível. Não há API, banco ou fluxo de pagamento a testar. Os links dos Instagrams correspondem exatamente aos fornecidos, com HTTPS, nova aba, aviso acessível e `noopener noreferrer`.
+
+## Preparação para GitHub Pages
+
+- Build estático validado com `NEXT_PUBLIC_BASE_PATH=/site-orfanato-dos-gatos-bc`.
+- Build também validado com prefixo vazio; `out/` foi deixado na configuração padrão da raiz para a prévia local.
+- Os 13 testes de navegador foram executados em `http://localhost:4173/site-orfanato-dos-gatos-bc/`, simulando o caminho público do repositório.
+- Verificados logo, ícone, CSS, scripts, imagens carregadas, retorno da página 404, ausência de respostas de erro, navegação e Pix no subdiretório.
+- `.github/workflows/pages.yml` usa as Actions oficiais para instalar, compilar, verificar e publicar o artefato `out/`. O prefixo vem dos metadados do Pages.
+- As verificações locais passaram; o workflow remoto ainda depende de enviar os arquivos a `main` e selecionar **GitHub Actions** em Settings → Pages.
+- Nesta revisão, o Windows apresentou cerca de 1 GB de memória virtual livre. O build foi validado com heap de 512 MB e um worker de geração, por variáveis temporárias da execução; nenhum limite adicional foi imposto ao workflow remoto.
 
 ## Capturas
 

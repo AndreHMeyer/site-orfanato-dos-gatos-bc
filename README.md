@@ -108,9 +108,33 @@ Antes da publicação institucional:
 5. Executar `npm run check`, `npm run build` e `npm run test:e2e`. Atualizar os testes de estado inicial quando dados confirmados substituírem as pendências.
 6. Publicar **somente o conteúdo de `out/`**, preservando `_next/` e os demais subdiretórios.
 
-Qualquer hospedagem de arquivos estáticos com HTTPS é suficiente. Configuração de referência para Vercel ou Cloudflare Pages: instalação `npm ci`, build `npm run build`, saída `out`. Selecionar preset estático/“Other” ou “None”, sem runtime SSR, funções ou adaptadores de backend. Configurar o host para servir `index.html` e `404.html`. A entrega pressupõe a raiz do domínio; hospedagem em subpasta exige ajuste de `basePath` e caminhos locais antes de novo build.
+Qualquer hospedagem de arquivos estáticos com HTTPS é suficiente. Configuração de referência para Vercel ou Cloudflare Pages: instalação `npm ci`, build `npm run build`, saída `out`. Selecionar preset estático/“Other” ou “None”, sem runtime SSR, funções ou adaptadores de backend. Configurar o host para servir `index.html` e `404.html`. Por padrão o site usa a raiz do domínio; para subpastas, definir `NEXT_PUBLIC_BASE_PATH` no build conforme abaixo.
 
 Definir a ONG como proprietária da hospedagem, repositório e domínio/DNS. Registrar responsáveis pela manutenção e recuperação de acesso fora do código. Para rollback, republicar a última versão aprovada de `out/` ou reverter a alteração no repositório e reconstruir. Esta entrega **não fez publicação externa nem definiu domínio**.
+
+### Testar no GitHub Pages
+
+O workflow `.github/workflows/pages.yml` instala as dependências, gera o build, executa as verificações e publica somente `out/`. React, Next e Tailwind não precisam de servidor no Pages: o código já chega compilado. Não enviar `node_modules`, `.next` ou `out` para a branch principal.
+
+1. Em **Settings → Pages → Build and deployment → Source**, escolher **GitHub Actions**. A opção “Deploy from a branch → main → /(root)” não compila o código-fonte deste projeto.
+2. Enviar os arquivos alterados, incluindo `.github/workflows/pages.yml`, à branch `main`.
+3. Na aba **Actions**, acompanhar **Publicar site no GitHub Pages**. Também é possível iniciar por **Run workflow** após o workflow estar em `main`.
+4. Após a execução concluir, abrir `https://andrehmeyer.github.io/site-orfanato-dos-gatos-bc/`.
+
+O workflow obtém automaticamente `/site-orfanato-dos-gatos-bc` da configuração do Pages e define `NEXT_PUBLIC_BASE_PATH` durante o build. Logo, fontes, CSS, scripts, ícone, fotos futuras, links de retorno e metadados consideram o prefixo. Não precisa criar segredo ou token pessoal; o deploy usa as permissões declaradas do `GITHUB_TOKEN` automático.
+
+A URL de testes não substitui o domínio institucional em `siteConfig`: as pendências permanecem nulas e o metadado `noindex` continua ativo. O `robots.txt` de um site de projeto fica na subpasta, enquanto crawlers consultam o arquivo da raiz do domínio; para esta homologação, o `noindex` do HTML é a indicação de indexação relevante. A página é publicamente acessível a quem tiver o endereço.
+
+Para reproduzir o build do Pages no PowerShell:
+
+```powershell
+$env:NEXT_PUBLIC_BASE_PATH = '/site-orfanato-dos-gatos-bc'
+npm.cmd run build
+npm.cmd run preview
+# Abrir http://localhost:3000/site-orfanato-dos-gatos-bc/
+```
+
+Use o mesmo valor ao rodar `npm.cmd run test:e2e`. Para voltar à raiz, execute `Remove-Item Env:NEXT_PUBLIC_BASE_PATH -ErrorAction SilentlyContinue` e refaça o build. O prefixo é configuração pública de build, não uma credencial. Publicar por GitHub Actions dispensa a etapa Jekyll e um arquivo `.nojekyll`.
 
 ## Testes e revisão
 

@@ -83,6 +83,10 @@ describe('Adoção e canais oficiais', () => {
     expect(screen.getByText(siteConfig.pix.key)).toBeVisible();
     expect(screen.getByRole('link', { name: /Visitar Instagram do bazar/ })).toHaveAttribute('href', siteConfig.socials.bazaarInstagram);
     expect(screen.getByRole('link', { name: /Seguir no Instagram/ })).toHaveAttribute('href', siteConfig.socials.instagram);
+    expect(screen.getByRole('link', { name: /Como chegar/ })).toHaveAttribute('href', siteConfig.contact.mapsDirectionsUrl);
+    expect(screen.getByRole('link', { name: /Como chegar/ })).toHaveAttribute('target', '_blank');
+    expect(screen.getByRole('link', { name: /Como chegar/ })).toHaveAttribute('rel', 'noopener noreferrer');
+    expect(screen.getByText('Entre em contato com a ONG antes de realizar uma visita.')).toBeVisible();
     for (const link of within(screen.getByRole('main')).getAllByRole('link')) {
       const href = link.getAttribute('href') ?? '';
       expect(href).not.toBe('#');

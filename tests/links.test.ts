@@ -22,6 +22,7 @@ describe('Dados confirmados e pendências', () => {
     expect(siteConfig.pix.key).toBe('orfanatodosgatos@gmail.com');
     expect(siteConfig.socials.instagram).toBe('https://www.instagram.com/orfanatodosgatosbc/');
     expect(siteConfig.socials.bazaarInstagram).toBe('https://www.instagram.com/bazar_orfanatodosgatos');
+    expect(siteConfig.contact.mapsDirectionsUrl).toBe('https://www.google.com/maps/dir/?api=1&destination=-26.97372595007401%2C-48.64839788898396');
   });
   it('mantém dados não recebidos como null', () => {
     expect([siteConfig.adoption.femaleDriveUrl, siteConfig.adoption.maleDriveUrl, siteConfig.contact.whatsappNumber, siteConfig.contact.email, siteConfig.pix.beneficiaryName, siteConfig.pix.qrCodeAsset, siteConfig.domain, siteConfig.media.hero, siteConfig.media.about, siteConfig.media.ogCover]).toEqual(Array(10).fill(null));

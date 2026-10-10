@@ -5,7 +5,7 @@ export interface SiteConfig {
   pix: { keyType: 'email'; key: string; beneficiaryName: string | null; qrCodeAsset: string | null };
   socials: { instagram: string; bazaarInstagram: string };
   adoption: { femaleDriveUrl: string | null; maleDriveUrl: string | null; approvedProcess: string | null };
-  contact: { whatsappNumber: string | null; email: string | null; address: string | null; openingHours: string | null };
+  contact: { whatsappNumber: string | null; email: string | null; address: string | null; openingHours: string | null; mapsDirectionsUrl: string };
   domain: string | null;
   cnpj: string | null;
   media: { hero: { src: string; alt: string } | null; about: { src: string; alt: string } | null; ogCover: string | null };
@@ -23,7 +23,13 @@ export const siteConfig: SiteConfig = {
     bazaarInstagram: 'https://www.instagram.com/bazar_orfanatodosgatos',
   },
   adoption: { femaleDriveUrl: null, maleDriveUrl: null, approvedProcess: null },
-  contact: { whatsappNumber: null, email: null, address: null, openingHours: null },
+  contact: {
+    whatsappNumber: null,
+    email: null,
+    address: null,
+    openingHours: null,
+    mapsDirectionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=-26.97372595007401%2C-48.64839788898396',
+  },
   domain: null,
   cnpj: null,
   media: { hero: null, about: null, ogCover: null },

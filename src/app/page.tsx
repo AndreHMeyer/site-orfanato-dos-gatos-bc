@@ -1,7 +1,8 @@
 import Image from 'next/image';
-import { ArrowDown, ArrowRight, Cat, Heart, HeartHandshake, House, MapPin, MessageCircle, ShieldCheck, ShoppingBag, Sparkles } from 'lucide-react';
+import { ArrowDown, ArrowRight, Cat, Heart, HeartHandshake, House, MapPin, MessageCircle, Navigation, ShieldCheck, ShoppingBag, Sparkles } from 'lucide-react';
 import { content, navigation, siteConfig } from '@/config/site';
 import { getDriveFolderUrl } from '@/lib/links';
+import { withBasePath } from '@/lib/paths';
 import { MobileNavigation } from '@/components/MobileNavigation';
 import { PixCopyButton } from '@/components/PixCopyButton';
 import { AdoptionCard } from '@/components/AdoptionCard';
@@ -16,7 +17,7 @@ const steps = [
 
 function Brand({ footer = false }: { footer?: boolean }) {
   return <a href="#inicio" className={'brand ' + (footer ? 'brand-footer' : '')} aria-label="Orfanato dos Gatos BC — início">
-    <Image src="/brand/logo-original.png" alt="Orfanato dos Gatos BC" width={68} height={68} priority={!footer} />
+    <Image src={withBasePath('/brand/logo-original.png')} alt="Orfanato dos Gatos BC" width={68} height={68} priority={!footer} />
     <span aria-hidden="true"><strong>Orfanato dos Gatos</strong><small>Balneário Camboriú · SC</small></span>
   </a>;
 }
@@ -41,7 +42,7 @@ export default function Home() {
               <a href="#sobre" className="discover-link"><span><ArrowDown size={17} aria-hidden="true" /></span>Conheça a nossa causa</a>
             </div>
             <figure className="hero-art">
-              {siteConfig.media.hero ? <Image className="real-photo" src={siteConfig.media.hero.src} alt={siteConfig.media.hero.alt} width={560} height={490} priority /> : <>
+              {siteConfig.media.hero ? <Image className="real-photo" src={withBasePath(siteConfig.media.hero.src)} alt={siteConfig.media.hero.alt} width={560} height={490} priority /> : <>
                 <div className="art-note"><Heart size={16} aria-hidden="true" />Um lar muda tudo.</div>
                 <CatIllustration />
                 <figcaption>Ilustração · fotografias da ONG em breve</figcaption>
@@ -59,9 +60,9 @@ export default function Home() {
       <section id="sobre" className="section about-section" aria-labelledby="about-title" tabIndex={-1}>
         <div className="container about-grid">
           <div className="about-visual">
-            {siteConfig.media.about ? <Image className="real-photo" src={siteConfig.media.about.src} alt={siteConfig.media.about.alt} width={520} height={410} /> : <div className="about-art">
+            {siteConfig.media.about ? <Image className="real-photo" src={withBasePath(siteConfig.media.about.src)} alt={siteConfig.media.about.alt} width={520} height={410} /> : <div className="about-art">
               <div className="about-orbit" aria-hidden="true"><span /><span /><span /></div>
-              <div className="about-logo"><Image src="/brand/logo-original.png" alt="Orfanato dos Gatos BC" width={220} height={220} /></div>
+              <div className="about-logo"><Image src={withBasePath('/brand/logo-original.png')} alt="Orfanato dos Gatos BC" width={220} height={220} /></div>
               <p>Cuidado que acolhe.<br /><strong>Amor que encontra um lar.</strong></p>
             </div>}
           </div>
@@ -98,7 +99,7 @@ export default function Home() {
               {siteConfig.pix.beneficiaryName ? <p className="beneficiary">Recebedor: {siteConfig.pix.beneficiaryName}</p> : null}
               <PixCopyButton pixKey={siteConfig.pix.key} />
               <noscript><p className="small-text">Selecione a chave acima e copie manualmente.</p></noscript>
-              {siteConfig.pix.qrCodeAsset ? <Image className="pix-qr" src={siteConfig.pix.qrCodeAsset} alt="QR Code Pix oficial validado pelo Orfanato dos Gatos BC" width={200} height={200} /> : null}
+              {siteConfig.pix.qrCodeAsset ? <Image className="pix-qr" src={withBasePath(siteConfig.pix.qrCodeAsset)} alt="QR Code Pix oficial validado pelo Orfanato dos Gatos BC" width={200} height={200} /> : null}
               <p className="pix-instructions"><ShieldCheck size={19} aria-hidden="true" /><span>No aplicativo do seu banco, escolha Pix, cole a chave e confira os dados do recebedor antes de confirmar a doação.</span></p>
             </div>
           </div>
@@ -112,7 +113,7 @@ export default function Home() {
       </section>
 
       <section id="contato" className="contact-section" aria-labelledby="contact-title" tabIndex={-1}>
-        <div className="container contact-grid"><div><Eyebrow light>Vamos ficar por perto</Eyebrow><h2 id="contact-title">Acompanhe de perto<br />cada história.</h2><p>Confira as atualizações e novidades do Orfanato dos Gatos BC em seu perfil oficial.</p></div><div className="contact-action"><ExternalLink href={siteConfig.socials.instagram} className="button button-white"><Instagram size={20} aria-hidden="true" />Seguir no Instagram</ExternalLink><span>@orfanatodosgatosbc</span><p><MapPin size={15} aria-hidden="true" />{siteConfig.location}</p></div></div>
+        <div className="container contact-grid"><div><Eyebrow light>Vamos ficar por perto</Eyebrow><h2 id="contact-title">Acompanhe de perto<br />cada história.</h2><p>Confira as atualizações e novidades do Orfanato dos Gatos BC em seu perfil oficial.</p></div><div className="contact-action"><ExternalLink href={siteConfig.socials.instagram} className="button button-white"><Instagram size={20} aria-hidden="true" />Seguir no Instagram</ExternalLink><span>@orfanatodosgatosbc</span><div className="contact-location"><p><MapPin size={15} aria-hidden="true" />{siteConfig.location}</p><ExternalLink href={siteConfig.contact.mapsDirectionsUrl} className="button button-outline-white"><Navigation size={18} aria-hidden="true" />Como chegar</ExternalLink><small>Entre em contato com a ONG antes de realizar uma visita.</small></div></div></div>
       </section>
     </main>
     <footer className="site-footer"><div className="container">
