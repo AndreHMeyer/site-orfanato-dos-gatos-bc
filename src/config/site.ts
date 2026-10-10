@@ -32,7 +32,11 @@ export const siteConfig: SiteConfig = {
   },
   domain: null,
   cnpj: null,
-  media: { hero: null, about: null, ogCover: null },
+  media: {
+    hero: { src: '/images/gatos/image03.webp', alt: 'Dois gatos juntos em um sofá, um de pelagem mesclada e outro laranja, em um ambiente aconchegante.' },
+    about: { src: '/images/gatos/image02.webp', alt: 'Gatinho de pelagem clara e olhos azuis olhando para cima, diante de um fundo verde suave.' },
+    ogCover: '/brand/og-cover.png',
+  },
   editorial: { approved: false, universityCredit: null, officialHistory: null, collaborationRules: null },
 };
 
@@ -40,8 +44,8 @@ export const siteConfig: SiteConfig = {
 export const content = {
   hero: 'Conheça o trabalho do Orfanato dos Gatos BC e descubra como apoiar gatos que precisam de cuidado, carinho e uma nova oportunidade.',
   about: 'O Orfanato dos Gatos BC atua no acolhimento e cuidado de gatos em situação de vulnerabilidade, buscando oferecer a eles melhores condições e a oportunidade de encontrar um novo lar.',
-  description: 'Conheça o Orfanato dos Gatos BC, veja como encontrar gatos para adoção em Balneário Camboriú e saiba como apoiar a ONG com doações via Pix.',
-  title: 'Orfanato dos Gatos BC | Adoção, cuidado e solidariedade',
+  description: 'Conheça o Orfanato dos Gatos BC, em Balneário Camboriú. Saiba mais sobre adoção responsável, conheça os gatos e descubra como ajudar a instituição.',
+  title: 'Orfanato dos Gatos BC | Adoção e Proteção Animal',
 };
 
 export const navigation = [

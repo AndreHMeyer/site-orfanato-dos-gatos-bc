@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { PixCopyButton } from '../src/components/PixCopyButton';
@@ -10,6 +10,22 @@ import Home from '../src/app/page';
 const setClipboard = (value: unknown) => Object.defineProperty(navigator, 'clipboard', { configurable: true, value });
 
 describe('Pix', () => {
+  it('remove o sucesso anterior enquanto aguarda uma nova cópia e trata a rejeição', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    setClipboard({ writeText });
+    render(<PixCopyButton pixKey={siteConfig.pix.key} />);
+    fireEvent.click(screen.getByRole('button'));
+    expect(await screen.findByText('Chave Pix copiada!')).toBeVisible();
+    let rejectCopy!: (reason: Error) => void;
+    writeText.mockImplementationOnce(() => new Promise((_, reject) => { rejectCopy = reject; }));
+    fireEvent.click(screen.getByRole('button'));
+    expect(screen.queryByText('Chave Pix copiada!')).not.toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent('Copiando chave Pix…');
+    expect(screen.getByRole('button')).toBeDisabled();
+    await act(async () => rejectCopy(new Error('NotAllowedError')));
+    expect(screen.getByRole('status')).toHaveTextContent('copie manualmente');
+    expect(screen.getByRole('button')).toBeEnabled();
+  });
   it('copia exatamente a chave e confirma somente a cópia, inclusive repetida', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     setClipboard({ writeText });
@@ -59,27 +75,50 @@ describe('Menu móvel', () => {
   });
 });
 describe('Adoção e canais oficiais', () => {
-  it.each([null, 'https://invalid.example/folders/test'])('não cria links falsos para pastas pendentes: %s', driveUrl => {
+  it.each([null, 'https://invalid.example/folders/test'])('mantém o botão desabilitado sem criar links falsos quando não há pasta válida: %s', driveUrl => {
     render(<AdoptionCard sex="female" driveUrl={driveUrl} />);
-    expect(screen.getByText('Link em preparação')).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Ver gatinhas' })).toBeDisabled();
+    expect(screen.getByRole('button')).toHaveAccessibleDescription('Conheça as gatinhas que procuram um novo lar.');
     expect(screen.queryByRole('link')).not.toBeInTheDocument();
   });
   it('direciona cada sexo à sua própria pasta com aviso e atributos seguros', () => {
     const female = 'https://drive.google.com/drive/folders/TEST_female';
     const male = 'https://drive.google.com/drive/folders/TEST_male';
     render(<><AdoptionCard sex="female" driveUrl={female} /><AdoptionCard sex="male" driveUrl={male} /></>);
-    expect(screen.getByRole('link', { name: /Ver fêmeas/ })).toHaveAttribute('href', female);
-    expect(screen.getByRole('link', { name: /Ver machos/ })).toHaveAttribute('href', male);
+    const femaleLink = screen.getByRole('link', { name: /Ver gatinhas/ });
+    const maleLink = screen.getByRole('link', { name: /Ver gatinhos/ });
+    expect(femaleLink).toHaveAttribute('href', female);
+    expect(maleLink).toHaveAttribute('href', male);
     for (const link of screen.getAllByRole('link')) {
       expect(link).toHaveAttribute('target', '_blank');
       expect(link).toHaveAttribute('rel', 'noopener noreferrer');
       expect(link).toHaveAccessibleName(/abre em nova aba/);
+      expect(link.querySelector('a, button')).toBeNull();
+    }
+  });
+  it.each(['none', 'female', 'male', 'both'] as const)('mantém a apresentação definitiva em todos os estados de disponibilidade: %s', available => {
+    const original = { ...siteConfig.adoption };
+    try {
+      siteConfig.adoption.femaleDriveUrl = available === 'female' || available === 'both' ? 'https://drive.google.com/drive/folders/TEST_female' : null;
+      siteConfig.adoption.maleDriveUrl = available === 'male' || available === 'both' ? 'https://drive.google.com/drive/folders/TEST_male' : null;
+      render(<Home />);
+      const adoption = screen.getByRole('region', { name: /Seu novo melhor amigo/ });
+      const steps = screen.getByRole('region', { name: 'Como funciona a adoção?' });
+      expect(within(adoption).getByText('Explore as galerias de fêmeas e machos e conheça os gatos divulgados pelo Orfanato. Quem sabe seu novo companheiro está esperando por você?')).toBeVisible();
+      expect(within(steps).getByText('Explore as galerias de fêmeas e machos e conheça os gatos divulgados pelo Orfanato.')).toBeVisible();
+      expect(within(adoption).queryByText(/preparad/i)).not.toBeInTheDocument();
+      if (available !== 'both') expect(within(adoption).getByRole('link', { name: /Ver Instagram da ONG/ })).toHaveAttribute('href', siteConfig.socials.instagram);
+      const count = available === 'both' ? 2 : available === 'none' ? 0 : 1;
+      expect(within(adoption).queryAllByRole('link', { name: /Ver gatinh[ao]s/ })).toHaveLength(count);
+      expect(within(adoption).queryAllByRole('button', { name: /Ver gatinh[ao]s/ })).toHaveLength(2 - count);
+    } finally {
+      Object.assign(siteConfig.adoption, original);
     }
   });
   it('renderiza os canais reais, chave completa e estados honestos na página', () => {
     render(<Home />);
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
-    expect(screen.getAllByText('Link em preparação')).toHaveLength(2);
+    for (const button of screen.getAllByRole('button', { name: /Ver gatinh[ao]s/ })) expect(button).toBeDisabled();
     expect(screen.getByText(siteConfig.pix.key)).toBeVisible();
     expect(screen.getByRole('link', { name: /Visitar Instagram do bazar/ })).toHaveAttribute('href', siteConfig.socials.bazaarInstagram);
     expect(screen.getByRole('link', { name: /Seguir no Instagram/ })).toHaveAttribute('href', siteConfig.socials.instagram);

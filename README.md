@@ -41,9 +41,11 @@ O ESLint 9 foi mantido por compatibilidade com os peer dependencies dos plugins 
 ```text
 assets/logo-original.png       Original recebido, preservado
 public/brand/logo-original.png Cópia idêntica usada na interface
-public/images/                Reservado para imagens autorizadas
+public/images/                Fotografias WebP usadas na página
+public/brand/og-cover.png      Capa de compartilhamento com a marca existente
 src/config/site.ts            Dados, textos institucionais base e navegação
 src/lib/links.ts               Validação de pastas Drive e domínio
+src/lib/adoption.ts            Textos derivados da disponibilidade das galerias
 src/app/page.tsx               Seções da página única
 src/app/globals.css            Tokens, layout, responsividade e acessibilidade
 src/app/layout.tsx             Fontes e metadados
@@ -51,8 +53,9 @@ src/app/robots.ts, sitemap.ts  Metadados exportados no build
 src/components/               Menu, Pix, adoção e elementos visuais
 tests/                        Testes de configuração, componentes e navegador
 scripts/preview.mjs            Servidor local de arquivos para revisão
+scripts/generate-og.mjs        Regenera a capa PNG com React/Next já instalados
 docs/VALIDACAO.md              Evidências e limites da verificação
-docs/screenshots/             Revisão visual nas cinco larguras
+docs/screenshots/             Evidências visuais nas larguras testadas
 out/                          Artefato estático gerado
 ```
 
@@ -72,7 +75,9 @@ Edite **`src/config/site.ts`**. `null` significa informação ainda não confirm
 4. Preencher `adoption.femaleDriveUrl` e `adoption.maleDriveUrl` com os links recebidos.
 5. Executar testes, build e redeploy.
 
-São aceitas pastas HTTPS no host exato `drive.google.com`, incluindo `/drive/folders/ID`, `/drive/u/0/folders/ID` e o formato antigo `/open?id=ID`. URLs inválidas ou ausentes preservam “Link em preparação”, sem botão inativo nem link falso, e acesso alternativo ao Instagram. A validação sintática não verifica permissões nem conteúdo das pastas; a checagem anônima é obrigatória.
+São aceitas pastas HTTPS no host exato `drive.google.com`, incluindo `/drive/folders/ID`, `/drive/u/0/folders/ID` e o formato antigo `/open?id=ID`. URLs inválidas ou ausentes mantêm o botão “Ver gatinhas” ou “Ver gatinhos” visível e desabilitado, sem URL fictícia ou navegação. Com uma URL válida, somente o botão do respectivo card passa a ser um link, com nova aba, `noopener noreferrer`, hover e foco visível.
+
+Cada pasta funciona independentemente. `src/lib/adoption.ts` mantém a apresentação definitiva da seção e indica se ambas as pastas estão disponíveis para decidir a exibição do atalho do Instagram. A mudança entra no próximo build; não há integração com a API do Drive. A disponibilidade e as condições de adoção continuam sujeitas à confirmação da ONG. A validação sintática não verifica permissões nem conteúdo das pastas; conferir o acesso anônimo após receber os destinos reais.
 
 A ONG pode adicionar, organizar e remover fotos **dentro das mesmas pastas sem rebuild**. Recomenda-se retirar ou atualizar animais já adotados e manter somente informações autorizadas. Não publicar dados de adotantes, prontuários privados ou documentos pessoais. Trocar o endereço de uma pasta exige nova publicação.
 
@@ -89,7 +94,9 @@ A ONG pode adicionar, organizar e remover fotos **dentro das mesmas pastas sem r
 
 O texto institucional base em `content` vem do planejamento e exige aprovação editorial. Os demais títulos e microtextos estão em `src/app/page.tsx`. A história oficial pode substituir o texto base por `editorial.officialHistory`; critérios aprovados podem ser incluídos em `adoption.approvedProcess`. O crédito universitário fica oculto enquanto `editorial.universityCredit` for nulo.
 
-Salve fotos autorizadas e otimizadas em WebP/AVIF em `public/images/` e configure `media.hero` ou `media.about` com `{ src: '/images/arquivo.webp', alt: 'Descrição objetiva do conteúdo autorizado' }`. Use proporção próxima a 560 × 490, preferencialmente até 1120 px de largura. Os componentes reservam espaço e usam dimensões explícitas. Não utilizar fotos de terceiros como se fossem animais da ONG. Sem imagens aprovadas, permanecem as ilustrações neutras, identificadas como ilustração.
+As fotos fornecidas estão em `assets/cat_images/`, com versões WebP em `public/images/gatos/`. Os nomes reais diferem da numeração do briefing: `image03.webp` mostra os dois gatos e aparece no Hero; `image02.webp` mostra o gatinho claro com fundo verde e aparece em Sobre; `image01.webp` é o siamês com fundo bege, disponível como alternativa e não carregado pela página. Os originais foram preservados, sem novas dependências.
+
+Configure `media.hero` ou `media.about` com `{ src: '/images/gatos/arquivo.webp', alt: 'Descrição objetiva do conteúdo autorizado' }`. O Hero preserva a proporção original de 980 × 653 e usa preload; Sobre usa carregamento lazy, enquadramento pelo topo e proporção 5:4 no desktop ou quadrada abaixo de 1024 px. Ao trocar arquivos, atualize também as dimensões em `page.tsx` e confira o enquadramento em `globals.css`. A exportação estática serve os WebP já otimizados, com `images.unoptimized: true` e suporte a `NEXT_PUBLIC_BASE_PATH`. Não utilizar fotos de terceiros como se fossem animais da ONG. Sem imagens configuradas, permanecem as ilustrações neutras.
 
 A logo permanece intacta em `assets/` e `public/brand/`. O ícone usa a mesma imagem quadrada sem distorção. Não substituir a marca sem aprovação. Paleta, foco e pontos de quebra estão em `globals.css`.
 
@@ -97,18 +104,28 @@ WhatsApp, e-mail público, endereço, horários, CNPJ e regras de colaboração 
 
 ## SEO e deploy
 
-A entrega mantém `editorial.approved: false` e `domain: null`. A homologação tem `noindex`, `robots.txt` bloqueia rastreamento, o sitemap fica vazio e não há canonical ou domínio fictício. Open Graph e Twitter já têm título e descrição; a imagem social está pendente de aprovação.
+A entrega mantém `editorial.approved: false` e `domain: null`. A homologação tem `noindex`, `robots.txt` bloqueia rastreamento, o sitemap fica vazio e não há canonical ou domínio fictício. Open Graph e Twitter têm título e descrição. A capa local de 1200 × 630 está em `public/brand/og-cover.png`, feita com o logo preservado e as cores do site. Suas tags absolutas são ativadas automaticamente quando `domain` for informado. Para regenerar a capa, editar e executar `node scripts/generate-og.mjs`; não precisa de nova dependência nem de backend.
 
 Antes da publicação institucional:
 
-1. Concluir a lista de homologação abaixo, incluindo os dois links Drive e a revisão da chave Pix.
+1. Revisar os dados e textos com a ONG, incluindo origem/autorização das fotos e dados do recebedor Pix. Os links Drive podem continuar pendentes: cada botão permanecerá desabilitado até receber seu destino.
 2. Preencher `domain` com a origem HTTPS real, sem subdiretórios.
 3. Após aprovação, definir `editorial.approved: true`.
-4. Se houver capa social validada, colocar o arquivo em `public/` e definir `media.ogCover` com caminho local iniciado por `/`. O domínio real permite gerar o endereço absoluto de compartilhamento.
+4. Revisar a capa de compartilhamento já configurada em `media.ogCover`. Para substituir, usar arquivo local de 1200 × 630 em `public/`, atualizar o caminho e conferir a prévia.
 5. Executar `npm run check`, `npm run build` e `npm run test:e2e`. Atualizar os testes de estado inicial quando dados confirmados substituírem as pendências.
 6. Publicar **somente o conteúdo de `out/`**, preservando `_next/` e os demais subdiretórios.
 
 Qualquer hospedagem de arquivos estáticos com HTTPS é suficiente. Configuração de referência para Vercel ou Cloudflare Pages: instalação `npm ci`, build `npm run build`, saída `out`. Selecionar preset estático/“Other” ou “None”, sem runtime SSR, funções ou adaptadores de backend. Configurar o host para servir `index.html` e `404.html`. Por padrão o site usa a raiz do domínio; para subpastas, definir `NEXT_PUBLIC_BASE_PATH` no build conforme abaixo.
+
+### Cloudflare Pages
+
+No painel do Pages, usar o preset **Next.js (Static HTML Export)** (ou equivalente), branch de produção `main`, comando de build `npm run build` e diretório de saída `out`. Não definir `NEXT_PUBLIC_BASE_PATH` quando o site estiver na raiz de um domínio `*.pages.dev` ou de um domínio próprio. O arquivo `.node-version` mantém o ambiente de build no Node 22.14.0, compatível com `package.json`.
+
+O arquivo `public/_headers` é copiado para `out/_headers` durante o build e adiciona cabeçalhos básicos de segurança, cache imutável somente aos bundles versionados de `/_next/static/` e `noindex` aos previews `:version.:project.pages.dev`. A URL principal `:project.pages.dev` pode ser o endereço definitivo gratuito: nesse caso, informá-la em `domain` e ativar `editorial.approved` após aprovação do conteúdo. Se usar domínio próprio, informar essa origem e configurar no painel o redirecionamento do endereço técnico para o oficial. Não é necessário `wrangler.toml`, pasta `functions/`, `_worker.js` ou adaptador do Cloudflare para esta arquitetura estática.
+
+Após o deploy, abrir `/`, `/robots.txt`, `/sitemap.xml`, `/brand/og-cover.png` e uma URL inexistente (deve retornar 404). Conferir a cópia Pix em HTTPS, os links e as âncoras no celular; verificar se o HTML público tem canonical e indexação correspondentes à configuração. Cabeçalhos de `_headers` precisam ser confirmados na hospedagem, pois o servidor local de prévia não os aplica.
+
+Referências oficiais: [Next.js estático no Cloudflare Pages](https://developers.cloudflare.com/pages/framework-guides/nextjs/deploy-a-static-nextjs-site/) e [regras de cabeçalhos](https://developers.cloudflare.com/pages/configuration/headers/).
 
 Definir a ONG como proprietária da hospedagem, repositório e domínio/DNS. Registrar responsáveis pela manutenção e recuperação de acesso fora do código. Para rollback, republicar a última versão aprovada de `out/` ou reverter a alteração no repositório e reconstruir. Esta entrega **não fez publicação externa nem definiu domínio**.
 
@@ -152,14 +169,14 @@ $env:PLAYWRIGHT_BROWSERS_PATH = "$PWD/.playwright"
 npm.cmd run test:e2e
 ```
 
-Cobertura: URLs válidas/inválidas, destinos por sexo, links oficiais, Pix exato, repetição, falha/ausência de clipboard, teclado, menu/Escape/foco, âncoras, metadados e ausência de requisições externas. O navegador testa 320/375/768/1024/1440 px, texto a 200%, movimento reduzido e navegação sem JavaScript. A análise axe cobre regras WCAG AA; não equivale a certificação completa.
+Cobertura: URLs válidas/inválidas, galerias pendentes/parciais/completas e primeira etapa correspondente, botões com destinos independentes, links oficiais, Pix exato, repetição, espera/falha/ausência de clipboard, teclado, menu/Escape/foco, âncoras após carregamento direto, rodapé, metadados e ausência de requisições externas. O navegador testa 360/390/430/768/1024/1440 px e também 320 px, texto a 200%, movimento reduzido e navegação sem JavaScript. Os testes de SEO verificam a ativação de canonical, imagem social, robots e sitemap com domínio e aprovação configurados. A análise axe cobre regras WCAG AA; não equivale a certificação completa.
 
 Resultados e limites: [docs/VALIDACAO.md](docs/VALIDACAO.md). O executor local precisa poder iniciar e encerrar seus próprios processos de teste; isso não altera a arquitetura estática.
 
 ## Pendências para receber e aprovar com a ONG
 
 - [ ] Links das duas pastas Drive, correspondência fêmeas/machos e acesso anônimo em modo leitor. **RF-04 permanece pendente de aceite operacional.**
-- [ ] Fotografias reais autorizadas e descrições alternativas.
+- [ ] Confirmar e documentar a origem e autorização de uso das fotografias atuais, que foram preservadas com textos alternativos.
 - [ ] Texto institucional oficial, história/missão e aprovação dos textos base.
 - [ ] Etapas e critérios reais de adoção.
 - [ ] Confirmação final da chave e nome do beneficiário Pix; QR oficial apenas se desejado.

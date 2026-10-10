@@ -72,7 +72,7 @@ Criar um **site institucional responsivo e predominantemente estático, com pág
 
 | Campo | Estado | Tratamento na versão de desenvolvimento |
 |---|---|---|
-| Link da pasta de gatas/fêmeas | Pendente | Card visível, estado “Link em preparação”, **sem botão inativo fingindo ser funcional**; link alternativo para Instagram claramente identificado |
+| Link da pasta de gatas/fêmeas | Pendente | Card visível com CTA definitivo desabilitado, sem destino fictício; link alternativo para Instagram claramente identificado |
 | Link da pasta de gatos/machos | Pendente | Mesma regra acima |
 | Fotos reais dos gatos e da ONG | Pendentes | Componentes com fundos/ilustrações neutras e acessíveis; inserir fotos finais somente após autorização |
 | Descrição oficial, história, missão e números | Pendentes | Usar texto institucional curto baseado exclusivamente no planejamento, marcado para aprovação editorial; não inventar datas/números/casos |
@@ -195,21 +195,21 @@ No celular: marca à esquerda, controle de menu acessível à direita, painel co
 
 - Eyebrow: “Adoção responsável”.
 - H2: **“Seu novo melhor amigo pode estar esperando por você.”**
-- Texto curto: “Conheça os gatos divulgados pela ONG. Escolha uma categoria para abrir a pasta correspondente no Google Drive.”
+- Texto curto: “Explore as galerias de fêmeas e machos e conheça os gatos divulgados pelo Orfanato. Quem sabe seu novo companheiro está esperando por você?”
 - Dois cartões equivalentes, mesma hierarquia e tamanho:
-  - **Fêmeas:** título “Conheça as fêmeas”; descrição “Veja as gatinhas divulgadas para adoção.”; CTA “Ver fêmeas no Drive” + ícone de link externo.
-  - **Machos:** título “Conheça os machos”; descrição “Veja os gatinhos divulgados para adoção.”; CTA “Ver machos no Drive” + ícone de link externo.
+  - **Fêmeas:** título “Conheça as fêmeas”; descrição “Conheça as gatinhas que procuram um novo lar.”; CTA “Ver gatinhas” + ícone de link externo.
+  - **Machos:** título “Conheça os machos”; descrição “Conheça os gatinhos que procuram um novo lar.”; CTA “Ver gatinhos” + ícone de link externo.
 - Ordenação: fêmeas antes de machos; não usar botão toggle como se fosse filtro interno.
 - Quando URL válida estiver presente: tornar o card/CTA navegável com `target="_blank"`, `rel="noopener noreferrer"`, texto e aviso para leitores de tela de que abre nova aba.
-- Quando URL ausente: mostrar o card sem navegação falsa, com etiqueta discreta “Link em preparação”. Abaixo dos cards, exibir “Enquanto organizamos as pastas, acompanhe os animais pelo Instagram da ONG” e botão real para Instagram. Não renderizar link com `href="#"`.
+- Quando URL ausente: manter o CTA definitivo desabilitado, sem navegação falsa. Abaixo dos cards, manter o link real para Instagram. Não renderizar link com `href="#"`.
 - Rodapé da seção: “A disponibilidade e as condições de adoção devem ser confirmadas diretamente com a ONG.”
 - Sem fotos/nomes de gatos específicos nesta página no MVP.
 
 ### 5.5 Como adotar (`#como-adotar`)
 
-- H2: **“Como dar o próximo passo?”**
+- H2: **“Como funciona a adoção?”**
 - Quatro cartões com ícones da Lucide, números e linhas curtas:
-  1. “Conheça os gatos” — “Explore as pastas para conhecer os animais divulgados.”
+  1. “Conheça os gatos” — “Explore as galerias de fêmeas e machos e conheça os gatos divulgados pelo Orfanato.”
   2. “Converse com a ONG” — “Entre em contato pelos canais oficiais para tirar dúvidas.”
   3. “Receba orientações” — “A instituição explicará os critérios e próximos passos da adoção.”
   4. “Adote com responsabilidade” — “Prepare-se para cuidar do seu novo companheiro.”

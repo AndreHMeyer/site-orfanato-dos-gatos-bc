@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: content.title, description: content.description,
     locale: 'pt_BR', type: 'website', siteName: siteConfig.name,
     ...(origin ? { url: origin + withBasePath('/') } : {}),
-    ...(approvedImage ? { images: [{ url: approvedImage, alt: siteConfig.name }] } : {}),
+    ...(approvedImage ? { images: [{ url: approvedImage, width: 1200, height: 630, alt: siteConfig.name + ' — Adoção e Proteção Animal' }] } : {}),
   },
   twitter: {
     card: approvedImage ? 'summary_large_image' : 'summary',
