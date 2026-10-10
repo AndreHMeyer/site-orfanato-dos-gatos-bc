@@ -33,13 +33,39 @@ test('menu aberto e âncora respeitam o cabeçalho com texto a 200%', async ({ p
   await page.goto(homePath);
   await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
   await page.getByRole('button', { name: 'Abrir menu' }).click();
-  const header = (await page.locator('.site-header').boundingBox())!;
   const nav = page.getByRole('navigation', { name: 'Navegação principal', exact: true });
-  expect((await nav.boundingBox())!.y).toBeGreaterThanOrEqual(header.height - 1);
+  expect((await nav.boundingBox())!.y).toBe(0);
+  expect(await page.evaluate(() => document.elementFromPoint(10, 10)?.closest('.site-header') !== null)).toBe(true);
   await page.screenshot({ path: 'docs/screenshots/375-menu-texto-200.png' });
   await nav.getByRole('link', { name: 'Adoção', exact: true }).click();
+  const header = (await page.locator('.site-header').boundingBox())!;
   await expect.poll(async () => (await page.locator('#adocao').boundingBox())!.y).toBeGreaterThanOrEqual(header.height);
 });
+
+for (const width of [360, 390, 430]) {
+  test(`menu mobile cobre a viewport e restaura a rolagem em ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(homePath);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.locator('#contato').scrollIntoViewIfNeeded();
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+    expect(scrollBefore).toBeGreaterThan(0);
+
+    await page.getByRole('button', { name: 'Abrir menu' }).click();
+    const overlay = page.locator('#main-navigation');
+    await expect(overlay).toBeVisible();
+    const box = (await overlay.boundingBox())!;
+    expect(box.x).toBe(0);
+    expect(box.y).toBe(0);
+    expect(box.width).toBe(width);
+    expect(box.height).toBeGreaterThanOrEqual(899);
+    expect(await page.evaluate(() => document.body.style.position)).toBe('fixed');
+    expect(await page.evaluate(() => document.elementFromPoint(10, window.innerHeight - 10)?.id)).toBe('main-navigation');
+
+    await page.getByRole('button', { name: 'Fechar menu' }).click();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+  });
+}
 
 test('ações do Hero e todos os links internos do rodapé', async ({ page }) => {
   await page.goto(homePath);
