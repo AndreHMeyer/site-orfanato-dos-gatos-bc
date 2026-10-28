@@ -25,7 +25,7 @@ describe('Dados confirmados e pendências', () => {
     expect(siteConfig.contact.mapsDirectionsUrl).toBe('https://www.google.com/maps/dir/?api=1&destination=-26.97372595007401%2C-48.64839788898396');
   });
   it('mantém dados não recebidos como null', () => {
-    expect([siteConfig.adoption.femaleDriveUrl, siteConfig.adoption.maleDriveUrl, siteConfig.contact.whatsappNumber, siteConfig.contact.email, siteConfig.pix.beneficiaryName, siteConfig.pix.qrCodeAsset, siteConfig.domain]).toEqual(Array(7).fill(null));
+    expect([siteConfig.contact.whatsappNumber, siteConfig.contact.email, siteConfig.pix.beneficiaryName, siteConfig.pix.qrCodeAsset, siteConfig.domain]).toEqual(Array(5).fill(null));
   });
   it('não cria canonical para domínio ausente, inseguro ou com credenciais', () => {
     for (const value of [null, 'localhost', 'http://example.org', 'https://user:secret@example.org']) expect(getPublicOrigin(value)).toBeNull();

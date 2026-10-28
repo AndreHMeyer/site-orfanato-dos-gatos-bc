@@ -22,7 +22,11 @@ export const siteConfig: SiteConfig = {
     instagram: 'https://www.instagram.com/orfanatodosgatosbc/',
     bazaarInstagram: 'https://www.instagram.com/bazar_orfanatodosgatos',
   },
-  adoption: { femaleDriveUrl: null, maleDriveUrl: null, approvedProcess: null },
+  adoption: {
+    femaleDriveUrl: 'https://drive.google.com/drive/folders/1HfU_bW0ckvWyxAlYe0pQ6j3FOqYSnVco',
+    maleDriveUrl: 'https://drive.google.com/drive/folders/198_ebY4AQMtFQ-hru9L-PGA-ziVOjT-Y',
+    approvedProcess: null,
+  },
   contact: {
     whatsappNumber: null,
     email: null,

@@ -42,8 +42,8 @@ for (const width of [320, 360, 390, 430, 768, 1024, 1440]) {
     await expect(page.locator('h1')).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await expect(page.locator('.pix-key')).toHaveText('orfanatodosgatos@gmail.com');
-    await expect(page.getByRole('button', { name: /Ver gatinh[ao]s/ })).toHaveCount(2);
-    for (const button of await page.getByRole('button', { name: /Ver gatinh[ao]s/ }).all()) await expect(button).toBeDisabled();
+    await expect(page.getByRole('link', { name: /Ver gatinhas/ })).toHaveAttribute('href', siteConfig.adoption.femaleDriveUrl!);
+    await expect(page.getByRole('link', { name: /Ver gatinhos/ })).toHaveAttribute('href', siteConfig.adoption.maleDriveUrl!);
     await expect(page.getByRole('heading', { name: 'Como funciona a adoção?' })).toBeVisible();
     const instagramBox = (await page.getByRole('link', { name: /Seguir no Instagram/ }).boundingBox())!;
     const directionsBox = (await page.getByRole('link', { name: /Como chegar/ }).boundingBox())!;
@@ -121,7 +121,7 @@ for (const width of [360, 1440]) {
     const maleUrl = 'https://drive.google.com/drive/folders/TEST_male';
     const cards = renderToStaticMarkup(createElement(AdoptionCard, { sex: 'female', driveUrl: femaleUrl }))
       + renderToStaticMarkup(createElement(AdoptionCard, { sex: 'male', driveUrl: maleUrl }));
-    // Renderiza o componente real numa página de teste, sem alterar os links nulos da ONG.
+    // Renderiza o componente real numa página de teste, sem alterar os links configurados da ONG.
     await page.setContent(`<html lang="pt-BR" class="${fontClasses}"><head><title>Teste de galerias disponíveis</title>${styles}</head><body><main class="container section"><div class="adoption-grid">${cards}</div></main></body></html>`);
     await page.evaluate(() => document.fonts.ready);
     await context.route('https://drive.google.com/**', route => route.fulfill({ contentType: 'text/html', body: '<p>Destino de teste</p>' }));

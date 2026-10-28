@@ -118,7 +118,8 @@ describe('Adoção e canais oficiais', () => {
   it('renderiza os canais reais, chave completa e estados honestos na página', () => {
     render(<Home />);
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
-    for (const button of screen.getAllByRole('button', { name: /Ver gatinh[ao]s/ })) expect(button).toBeDisabled();
+    expect(screen.getByRole('link', { name: /Ver gatinhas/ })).toHaveAttribute('href', 'https://drive.google.com/drive/folders/1HfU_bW0ckvWyxAlYe0pQ6j3FOqYSnVco');
+    expect(screen.getByRole('link', { name: /Ver gatinhos/ })).toHaveAttribute('href', 'https://drive.google.com/drive/folders/198_ebY4AQMtFQ-hru9L-PGA-ziVOjT-Y');
     expect(screen.getByText(siteConfig.pix.key)).toBeVisible();
     expect(screen.getByRole('link', { name: /Visitar Instagram do bazar/ })).toHaveAttribute('href', siteConfig.socials.bazaarInstagram);
     expect(screen.getByRole('link', { name: /Seguir no Instagram/ })).toHaveAttribute('href', siteConfig.socials.instagram);
