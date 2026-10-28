@@ -69,6 +69,8 @@ Edite **`src/config/site.ts`**. `null` significa informação ainda não confirm
 
 ### Pastas de adoção
 
+Pastas configuradas: [fêmeas](https://drive.google.com/drive/folders/1HfU_bW0ckvWyxAlYe0pQ6j3FOqYSnVco) e [machos](https://drive.google.com/drive/folders/198_ebY4AQMtFQ-hru9L-PGA-ziVOjT-Y). Os dois botões estão habilitados para abrir a respectiva galeria em nova aba. Para substituir as pastas:
+
 1. A ONG deve criar/controlar uma pasta para fêmeas e outra para machos.
 2. Configurar **Acesso geral → Qualquer pessoa com o link → Leitor** em cada pasta.
 3. Testar os links em janela anônima, sem conta Google. Confirmar sexo correto e ausência de permissão de edição.
@@ -175,7 +177,8 @@ Resultados e limites: [docs/VALIDACAO.md](docs/VALIDACAO.md). O executor local p
 
 ## Pendências para receber e aprovar com a ONG
 
-- [ ] Links das duas pastas Drive, correspondência fêmeas/machos e acesso anônimo em modo leitor. **RF-04 permanece pendente de aceite operacional.**
+- [x] Links das duas pastas Drive recebidos e associados aos respectivos botões de fêmeas/machos.
+- [ ] Confirmar acesso anônimo às pastas em modo leitor. **RF-04 permanece pendente de aceite operacional.**
 - [ ] Confirmar e documentar a origem e autorização de uso das fotografias atuais, que foram preservadas com textos alternativos.
 - [ ] Texto institucional oficial, história/missão e aprovação dos textos base.
 - [ ] Etapas e critérios reais de adoção.
