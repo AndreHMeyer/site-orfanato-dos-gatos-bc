@@ -42,7 +42,7 @@ export default function Home() {
               <a href="#sobre" className="discover-link"><span><ArrowDown size={17} aria-hidden="true" /></span>Conheça a nossa causa</a>
             </div>
             <figure className={'hero-art' + (siteConfig.media.hero ? ' hero-photo' : '')}>
-              {siteConfig.media.hero ? <Image className="real-photo" src={withBasePath(siteConfig.media.hero.src)} alt={siteConfig.media.hero.alt} width={980} height={653} sizes="(max-width: 767px) min(530px, calc(100vw - 40px)), (max-width: 1023px) 530px, (max-width: 1199px) calc((100vw - 105px) / 2), (max-width: 1279px) calc((100vw - 128px) / 2), 576px" preload /> : <>
+              {siteConfig.media.hero ? <Image className="real-photo" src={withBasePath(siteConfig.media.hero.src)} alt={siteConfig.media.hero.alt} width={1672} height={941} sizes="(max-width: 767px) min(530px, calc(100vw - 40px)), (max-width: 1023px) 530px, (max-width: 1199px) calc((100vw - 105px) / 2), (max-width: 1279px) calc((100vw - 128px) / 2), 576px" preload /> : <>
                 <div className="art-note"><Heart size={16} aria-hidden="true" />Um lar muda tudo.</div>
                 <CatIllustration />
                 <figcaption>Ilustração do Orfanato dos Gatos BC</figcaption>

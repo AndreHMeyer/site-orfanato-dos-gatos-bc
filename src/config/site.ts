@@ -37,7 +37,7 @@ export const siteConfig: SiteConfig = {
   domain: null,
   cnpj: null,
   media: {
-    hero: { src: '/images/gatos/image03.webp', alt: 'Dois gatos juntos em um sofá, um de pelagem mesclada e outro laranja, em um ambiente aconchegante.' },
+    hero: { src: '/images/gatos/image05.webp', alt: 'Gatos reunidos em uma cama rosa.' },
     about: { src: '/images/gatos/image02.webp', alt: 'Gatinho de pelagem clara e olhos azuis olhando para cima, diante de um fundo verde suave.' },
     ogCover: '/brand/og-cover.png',
   },
