@@ -46,9 +46,9 @@ for (const width of [320, 360, 390, 430, 768, 1024, 1440]) {
     await expect(page.getByRole('link', { name: /Ver gatinhos/ })).toHaveAttribute('href', siteConfig.adoption.maleDriveUrl!);
     await expect(page.getByRole('heading', { name: 'Como funciona a adoção?' })).toBeVisible();
     const instagramBox = (await page.getByRole('link', { name: /Seguir no Instagram/ }).boundingBox())!;
-    const directionsBox = (await page.getByRole('link', { name: /Como chegar/ }).boundingBox())!;
-    expect(Math.abs(instagramBox.width - directionsBox.width)).toBeLessThan(1);
-    expect(Math.abs(instagramBox.x - directionsBox.x)).toBeLessThan(1);
+    const contactActionBox = (await page.locator('.contact-action').boundingBox())!;
+    expect(Math.abs(instagramBox.x + instagramBox.width / 2 - (contactActionBox.x + contactActionBox.width / 2))).toBeLessThan(1);
+    await expect(page.getByRole('link', { name: /Como chegar/ })).toHaveCount(0);
     const heroPhoto = page.locator('.hero-photo img');
     const heroBox = (await heroPhoto.boundingBox())!;
     expect(heroBox.width / heroBox.height).toBeCloseTo(980 / 653, 2);

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ArrowDown, ArrowRight, Cat, Heart, HeartHandshake, House, MapPin, MessageCircle, Navigation, ShieldCheck, ShoppingBag, Sparkles } from 'lucide-react';
+import { ArrowDown, ArrowRight, Cat, Heart, HeartHandshake, House, MapPin, MessageCircle, ShieldCheck, ShoppingBag, Sparkles } from 'lucide-react';
 import { content, navigation, siteConfig } from '@/config/site';
 import { getAdoptionContent } from '@/lib/adoption';
 import { withBasePath } from '@/lib/paths';
@@ -113,7 +113,7 @@ export default function Home() {
       </section>
 
       <section id="contato" className="contact-section" aria-labelledby="contact-title" tabIndex={-1}>
-        <div className="container contact-grid"><div><Eyebrow light>Vamos ficar por perto</Eyebrow><h2 id="contact-title">Acompanhe de perto<br />cada história.</h2><p>Confira as atualizações e novidades do Orfanato dos Gatos BC em seu perfil oficial.</p></div><div className="contact-action"><div className="contact-group contact-instagram"><ExternalLink href={siteConfig.socials.instagram} className="button button-white"><Instagram size={20} aria-hidden="true" />Seguir no Instagram</ExternalLink><span>@orfanatodosgatosbc</span></div><div className="contact-group contact-location"><p><MapPin size={15} aria-hidden="true" />{siteConfig.location}</p><ExternalLink href={siteConfig.contact.mapsDirectionsUrl} className="button button-outline-white"><Navigation size={18} aria-hidden="true" />Como chegar</ExternalLink><small>Entre em contato com a ONG antes de realizar uma visita.</small></div></div></div>
+        <div className="container contact-grid"><div><Eyebrow light>Vamos ficar por perto</Eyebrow><h2 id="contact-title">Acompanhe de perto<br />cada história.</h2><p>Confira as atualizações e novidades do Orfanato dos Gatos BC em seu perfil oficial.</p></div><div className="contact-action"><div className="contact-group contact-instagram"><ExternalLink href={siteConfig.socials.instagram} className="button button-white"><Instagram size={20} aria-hidden="true" />Seguir no Instagram</ExternalLink><span>@orfanatodosgatosbc</span></div><div className="contact-group contact-location"><p><MapPin size={15} aria-hidden="true" />{siteConfig.location}</p><small>Entre em contato com a ONG antes de realizar uma visita.</small></div></div></div>
       </section>
     </main>
     <footer className="site-footer"><div className="container">

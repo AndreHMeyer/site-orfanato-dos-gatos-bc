@@ -6,3 +6,21 @@
 [1010/132318.454:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
 [1010/132404.952:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
 [1010/132410.856:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180027.858:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180030.541:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180032.891:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180036.014:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180038.923:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180039.356:WARNING:components\viz\service\frame_sinks\video_capture\shared_memory_video_frame_pool.cc:75] Failed to allocate 1440000 bytes.
+[1107/180039.356:ERROR:components\viz\service\frame_sinks\video_capture\frame_sink_video_capturer_impl.cc:939] Unable to allocate frame for first frame capture: OOM?
+[1107/180042.345:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180045.099:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180047.197:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180049.539:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180051.726:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180053.776:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180055.738:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180058.046:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180100.293:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180102.573:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
+[1107/180104.544:ERROR:net\base\network_change_notifier_win.cc:224] WSALookupServiceBegin failed with: -1
