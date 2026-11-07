@@ -34,14 +34,14 @@ export const siteConfig: SiteConfig = {
     openingHours: null,
     mapsDirectionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=-26.97372595007401%2C-48.64839788898396',
   },
-  domain: null,
+  domain: 'https://orfanatodosgatosbc.com.br',
   cnpj: null,
   media: {
     hero: { src: '/images/gatos/image05.webp', alt: 'Gatos reunidos em uma cama rosa.' },
     about: { src: '/images/gatos/image02.webp', alt: 'Gatinho de pelagem clara e olhos azuis olhando para cima, diante de um fundo verde suave.' },
     ogCover: '/brand/og-cover.png',
   },
-  editorial: { approved: false, universityCredit: null, officialHistory: null, collaborationRules: null },
+  editorial: { approved: true, universityCredit: null, officialHistory: null, collaborationRules: null },
 };
 
 // Textos baseados no planejamento; aguardam aprovação editorial da ONG.

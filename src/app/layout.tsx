@@ -1,12 +1,9 @@
 import type { Metadata } from 'next';
-import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import { content, siteConfig } from '@/config/site';
 import { getPublicOrigin } from '@/lib/links';
 import { withBasePath } from '@/lib/paths';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter', display: 'swap' });
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['600', '700'], variable: '--font-jakarta', display: 'swap' });
 const origin = getPublicOrigin(siteConfig.domain);
 const approvedImage = siteConfig.media.ogCover && origin ? origin + withBasePath(siteConfig.media.ogCover) : null;
 
@@ -29,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="pt-BR" className={inter.variable + ' ' + jakarta.variable}>
+  return <html lang="pt-BR">
     <body>{children}</body>
   </html>;
 }

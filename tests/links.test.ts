@@ -24,8 +24,10 @@ describe('Dados confirmados e pendências', () => {
     expect(siteConfig.socials.bazaarInstagram).toBe('https://www.instagram.com/bazar_orfanatodosgatos');
     expect(siteConfig.contact.mapsDirectionsUrl).toBe('https://www.google.com/maps/dir/?api=1&destination=-26.97372595007401%2C-48.64839788898396');
   });
-  it('mantém dados não recebidos como null', () => {
-    expect([siteConfig.contact.whatsappNumber, siteConfig.contact.email, siteConfig.pix.beneficiaryName, siteConfig.pix.qrCodeAsset, siteConfig.domain]).toEqual(Array(5).fill(null));
+  it('mantém dados não recebidos como null e usa o domínio oficial', () => {
+    expect([siteConfig.contact.whatsappNumber, siteConfig.contact.email, siteConfig.pix.beneficiaryName, siteConfig.pix.qrCodeAsset]).toEqual(Array(4).fill(null));
+    expect(siteConfig.domain).toBe('https://orfanatodosgatosbc.com.br');
+    expect(siteConfig.editorial.approved).toBe(true);
   });
   it('não cria canonical para domínio ausente, inseguro ou com credenciais', () => {
     for (const value of [null, 'localhost', 'http://example.org', 'https://user:secret@example.org']) expect(getPublicOrigin(value)).toBeNull();
